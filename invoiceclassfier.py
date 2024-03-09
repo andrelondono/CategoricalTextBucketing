@@ -23,13 +23,13 @@ def extract_text_from_pdf(pdf_path):
             text += page.extractText()
     return text
 
-# Step 2: Preprocess text data
+# Preprocess text data
 def preprocess_text(text):
     # You may need more advanced text preprocessing based on your specific case
     tokens = nltk.word_tokenize(text)
     return ' '.join(tokens)
 
-# Step 3: Train a simple text classification model
+# Train a simple text classification model
 def train_text_classifier(X, y):
     vectorizer = CountVectorizer()
     X = vectorizer.fit_transform(X)
@@ -46,34 +46,34 @@ def train_text_classifier(X, y):
 
     return classifier, vectorizer
 
-# Step 4: Save trained model and vectorizer
+#  Save trained model and vectorizer
 def save_model_and_vectorizer(classifier, vectorizer, model_path, vectorizer_path):
     joblib.dump(classifier, model_path)
     joblib.dump(vectorizer, vectorizer_path)
 
-# Step 5: Load model and vectorizer for inference
+#  Load model and vectorizer for inference
 def load_model_and_vectorizer(model_path, vectorizer_path):
     classifier = joblib.load(model_path)
     vectorizer = joblib.load(vectorizer_path)
     return classifier, vectorizer
 
-# Step 6: Use the trained model to predict the category of a new invoice
+# Predict the category of a new invoice
 def predict_invoice_category(invoice_text, classifier, vectorizer):
     preprocessed_text = preprocess_text(invoice_text)
     features = vectorizer.transform([preprocessed_text])
     category = classifier.predict(features)[0]
     return category
 
-# Example usage
+# Example
 if __name__ == "__main__":
     # Step 1: Extract text from PDF
     pdf_path = 'path/to/your/invoice.pdf'
     invoice_text = extract_text_from_pdf(pdf_path)
 
-    # Step 2: Preprocess text data
+    #  Preprocess text data
     preprocessed_text = preprocess_text(invoice_text)
 
-    # Step 3: Train or load a text classification model
+    # STrain or load a text classification model
     # For training:
     # labels = ['category1', 'category2', ...]
     # X = ['text1', 'text2', ...]
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     # For loading pre-trained model and vectorizer
     classifier, vectorizer = load_model_and_vectorizer('model.pkl', 'vectorizer.pkl')
 
-    # Step 4: Predict the category of the invoice
+    # Predict the category of the invoice
     predicted_category = predict_invoice_category(invoice_text, classifier, vectorizer)
 
     print(f'Predicted Category: {predicted_category}')
